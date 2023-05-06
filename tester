@@ -1,0 +1,6 @@
+#!/bin/bash
+if [[ $1 == "add" ]];then
+        echo "Device Added">>/home/hak/projects/gnome-keyring-unlock-copy/tes
+elif [[ $1 == "remove" ]];then
+        echo "Device Removed">>/home/hak/projects/gnome-keyring-unlock-copy/tes
+fi
