@@ -1,0 +1,4 @@
+ACTION=="add", ENV{ID_VENDOR_ID}=="1050", ENV{ID_MODEL_ID}=="0406", RUN+="/home/hak/projects/scripts/change-state.sh add"
+
+ACTION=="remove", ENV{HID_NAME}=="Yubico YubiKey FIDO+CCID", RUN+="/home/hak/projects/scripts/change-state.sh remove"
+
