@@ -92,7 +92,7 @@ while (( I < 13 )); do
                 killall gpg-agent &>/dev/null
                 udevWorking="yes"
                 echo "Success yubi is detected by udev"
-                if gpg --card-status ;then
+                if [[ $(sed -n '$p' /home/$username/.keyring-unlocker.log) == "detected->decrypting" ]];then
 			echo "trying to unlock..."
 			if [[ $(sed -n '$p' /home/$username/.keyring-unlocker.log) == "keyring unlocked" ]];then
 				echo "keyring should be unlocked now"
