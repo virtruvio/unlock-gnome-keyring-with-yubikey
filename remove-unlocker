@@ -1,0 +1,15 @@
+#!/bin/bash
+
+user=""
+
+if [[ $(whoami) != "root" ]];then
+        echo "Must run as root"
+        exit 1
+fi
+echo "deleting files"
+rm -r /etc/udev/rules.d/80-insert-yubi.rules /usr/local/bin/trigger /usr/local/bin/keyring-unlocker /home/$user/.pass /home/$user/.kering-unlocker.log
+echo"restarting service and udev rules"
+systemctl restart pcscd
+killall gpg-agent
+udevadm control --reload
+echo "bye"
