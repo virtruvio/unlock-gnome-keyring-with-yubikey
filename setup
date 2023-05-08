@@ -76,7 +76,7 @@ echo "Inserting udev rule"
 	mv 80-insert-yubi.rules /etc/udev/rules.d/
 	udevadm control --reload
 
-touch /home/$username/.keyring.unlocker.log
+touch /home/$username/.keyring-unlocker.log
 
 ### test if secret file decrypts and if the password is correct
 echo "Final test"
@@ -87,14 +87,14 @@ echo "try inserting and taking out the key to see if it works"
 while (( I < 13 )); do
 	sleep 1
         (( I++ ))
-        if [[ $(sed -n '$p' /home/$username/.keyring.unlocker.log) == "Device Added" ]];then
+        if [[ $(sed -n '$p' /home/$username/.keyring-unlocker.log) == "Device Added" ]];then
         	systemctl restart pcscd &>/dev/null
                 killall gpg-agent &>/dev/null
                 udevWorking="yes"
                 echo "Success yubi is detected by udev"
                 if gpg --card-status ;then
 			echo "trying to unlock..."
-			if [[ $(sed -n '$p' /home/$username/.keyring.unlocker.log) == "keyring unlocked" ]];then
+			if [[ $(sed -n '$p' /home/$username/.keyring-unlocker.log) == "keyring unlocked" ]];then
 				echo "keyring should be unlocked now"
 			else
 				echo "Failed to unlock the keyring"
