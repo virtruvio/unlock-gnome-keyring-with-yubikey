@@ -76,6 +76,7 @@ echo "Iserting udev rule"
 	mv 80-insert-yubi.rules /etc/udev/rules.d/
 	udevadm control --reload
 
+touch /home/$username/.keyring.unlocker.log
 
 ### test if secret file decrypts and if the password is correct
 if [[ $(sed -n '$p' /home/$username/.keyring.unlocker.log) == "Device Added" ]];then
@@ -114,4 +115,6 @@ if [[ $(sed -n '$p' /home/$username/.keyring.unlocker.log) == "Device Added" ]];
         	fi
 fi
 
-
+sed -i "s/user=.*/user="$username"/g" remove-unlocker
+chmod +x remove-unlocker
+echo "if you want to memove the unlocker execute the remove-unlocker script"
