@@ -85,8 +85,7 @@ echo "Inserting udev rule"
 
 ### test if secret file decrypts and if the password is correct
 echo "Final test"
-       	systemctl restart pcscd &>/dev/null
-       	killall gpg-agent &>/dev/null
+
 echo "try inserting and taking out the key to see if it works"
        	I=0
 while (( I < 13 )); do
