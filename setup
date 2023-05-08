@@ -86,7 +86,7 @@ echo "Inserting udev rule"
 ### test if secret file decrypts and if the password is correct
 echo "Final test"
 
-echo "try inserting and taking out the key to see if it works"
+echo "take yubikey out and insert it back in"
        	I=0
 while (( I < 13 )); do
 	echo $I
