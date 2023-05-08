@@ -70,11 +70,12 @@ rm not-secret-pass
 systemctl restart pcscd
 killall gpg-agent
 
+touch /home/$username/.keyring-unlocker.log
+chmod 777 /home/$username/.keyring-unlocker.log
+
 echo "Inserting udev rule"
 	mv 80-insert-yubi.rules /etc/udev/rules.d/
 	udevadm control --reload
-
-touch /home/$username/.keyring-unlocker.log
 
 ### test if secret file decrypts and if the password is correct
 echo "Final test"
