@@ -30,16 +30,14 @@ while true ;do
 	fi
 done
 
-read -sp "password: " pass
-
-echo "The password you gave is: $pass"
+read -p "password: " pass
 
 read -p "Insert pin automatically?(Y/n)" autoPin
 
 if [[ $autoPin == "y" ]] || [[ $autoPin == "Y" ]];then
         read -p "insert the pin " pin
 elif [[ $autoPin == "n" ]] || [[ $autoPin == "N" ]] || [[ $autoPin == "" ]];then
-        echo "ok you will enter it manually"
+        echo "ok you will enter it manually, also at login/boot you will need to reinsert the yubikey for the prompt"
 	pin="manual"
 fi
 
@@ -86,15 +84,18 @@ echo "try inserting and taking out the key to see if it works"
        	I=0
 while (( I < 13 )); do
 	sleep 1
+	echo "."
+	echo".."
+	echo "..."
         (( I++ ))
-        if [[ $(sed -n '$p' /home/$username/.keyring-unlocker.log) == "Device Added" ]];then
+        if tail -2 /home/$username/.keyring-unlocker.log | grep "Device-Added" ;then
         	systemctl restart pcscd &>/dev/null
                 killall gpg-agent &>/dev/null
                 udevWorking="yes"
                 echo "Success yubi is detected by udev"
-                if [[ $(sed -n '$p' /home/$username/.keyring-unlocker.log) == "detected->decrypting" ]];then
+                if tail -2 /home/$username/.keyring-unlocker.log | grep "Detected-Decrypting" ;then
 			echo "trying to unlock..."
-			if [[ $(sed -n '$p' /home/$username/.keyring-unlocker.log) == "keyring unlocked" ]];then
+			if tail -2 /home/$username/.keyring-unlocker.log | grep "Keyring-Unlocked" ;then
 				echo "keyring should be unlocked now"
 			else
 				echo "Failed to unlock the keyring"
