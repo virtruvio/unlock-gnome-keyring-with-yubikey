@@ -77,7 +77,7 @@ systemctl restart pcscd
 killall gpg-agent
 
 touch /home/$username/.keyring-unlocker.log
-chmod 777 /home/$username/.keyring-unlocker.log
+chmod +rw /home/$username/.keyring-unlocker.log
 
 echo "Inserting udev rule"
 	mv 80-insert-yubi.rules /etc/udev/rules.d/
