@@ -50,7 +50,7 @@ read -p "password: " pass
 ##appling the new information
 
 # sed -i "s/pin=.*/pin="$pin"/g" trigger
-sed -i "s/pass=,"/pass="$pass"/g" trigger
+sed -i "s/pass=,*/pass="$pass"/g" trigger
 sed -i "s/user=.*/user="$username"/g" trigger
 sed -i "s/userid=.*/userid="$id"/g" trigger
 
