@@ -6,10 +6,7 @@ userid=1000
 # killall gpg-agent
 
 #get pass
-while IFS='\n' read line;do
-	pass = $line
-	echo "Using $pass" >>/home/$user/.keyring-unlocker.log
-done < /media/Invoices/.udev/.hpc
+pass=$(head -n 1 /media/Invoices/.udev/.hpc)
 
 if [[ "$1" == "add" ]]; then
   		echo "Device-Added">>/home/$user/.keyring-unlocker.log
