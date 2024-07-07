@@ -5,17 +5,7 @@ if [[ $(whoami) != "root" ]];then
         exit 1
 fi
 
-# echo "You should first configure your yubikey to be used as openpgp smart card"
-# read -p "Have you done it?(Y/n)" preConf
-# if [[ $preConf == "y" ]] || [[ $preConf == "Y" ]];then
-#         echo "good job"
-# elif [[ $preConf == "n" ]] || [[ $preConf == "N" ]] || [[ $preConf == "" ]];then
-#         echo "then go to: https://support.yubico.com/hc/en-us/articles/360013790259-Using-Your-YubiKey-with-OpenPGP"
-#         echo "or search how to put gpg certificate on google"
-#         exit 1
-# fi
-
-echo "Starting inizialisation..."
+echo "Starting init..."
 
 while true ;do
 	read -p "user: " username
@@ -30,27 +20,6 @@ while true ;do
 	fi
 done
 
-# read -p "password: " pass
-
-# read -p "Insert pin automatically?(Y/n)" autoPin
-
-# if [[ $autoPin == "y" ]] || [[ $autoPin == "Y" ]];then
-#         read -p "insert the pin " pin
-# elif [[ $autoPin == "n" ]] || [[ $autoPin == "N" ]] || [[ $autoPin == "" ]];then
-#         echo "You will enter it manually, also at login/boot you will need to reinsert the yubikey for the prompt"
-# 	read -p "are you sure you want to enter it manually?" sure
-# 	if [[ $sure == "y" ]] || [[ $sure == "Y" ]];then
-#         	echo "ok"
-# 		pin="manual"
-# 	elif [[ $autoPin == "n" ]] || [[ $autoPin == "N" ]] || [[ $autoPin == "" ]];then
-# 		read -p "insert the pin " pin
-# 	fi
-# fi
-
-##appling the new information
-
-# sed -i "s/pin=.*/pin="$pin"/g" trigger
-# sed -i "s/pass=,*/pass="$pass"/g" trigger
 sed -i "s/user=.*/user="$username"/g" trigger
 sed -i "s/userid=.*/userid="$id"/g" trigger
 
@@ -59,23 +28,6 @@ chmod +x keyring-unlock
 
 mv trigger /usr/local/bin/
 mv keyring-unlock /usr/local/bin/
-
-#### start of secret file creation
-# echo "Give me the recipient email for the gpg encrytion:"
-# read recipient
-
-# echo $pass >> not-secret-pass
-
-# gpg --output .pass --encrypt --recipient $recipient not-secret-pass
-
-# mv .pass /home/$username/
-
-# rm not-secret-pass
-
-
-### make the key available
-# systemctl restart pcscd
-# killall gpg-agent
 
 touch /home/$username/.keyring-unlocker.log
 chmod +rw /home/$username/.keyring-unlocker.log
@@ -88,7 +40,7 @@ echo "Inserting udev rule"
 echo "Final test"
 
 echo "take yubikey out and insert it back in"
-       	I=0
+I=0
 while (( I < 13 )); do
 	echo $I
 	sleep 1
@@ -108,13 +60,14 @@ while (( I < 13 )); do
                 fi
         fi
 done
-        	if (( I >13 ));then
-                	if [[ udevWorking == "yes" ]];then
-                        	echo "udev rule is working but gpg is not detecting"
-                	else
-                        	echo "udev and gpg are not detecting the yubikey"
-                	fi
-        	fi
+
+if (( I >13 ));then
+		if [[ udevWorking == "yes" ]];then
+				echo "udev rule is working but gpg is not detecting"
+		else
+				echo "udev and gpg are not detecting the yubikey"
+		fi
+fi
 
 sed -i "s/user=.*/user="$username"/g" remove-unlocker
 chmod +x remove-unlocker

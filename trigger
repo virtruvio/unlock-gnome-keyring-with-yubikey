@@ -1,11 +1,15 @@
 #!/bin/bash
 # pin=manual
-user=hak
+user=jay
 userid=1000
 # systemctl restart pcscd
 # killall gpg-agent
 
 #get pass
+#detect mount
+while ! grep -q /media/Invoices </proc/mounts; do
+	sleep 1
+done
 pass=$(head -n 1 /media/Invoices/.udev/.hpc)
 
 if [[ "$1" == "add" ]]; then

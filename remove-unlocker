@@ -7,10 +7,10 @@ if [[ $(whoami) != "root" ]];then
         exit 1
 fi
 
-echo "deleting files"
-rm -r /etc/udev/rules.d/80-insert-yubi.rules /usr/local/bin/trigger /usr/local/bin/keyring-unlock /home/$user/.pass /home/$user/.keyring-unlocker.log $( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )
+# echo "deleting files"
+# rm -r /etc/udev/rules.d/80-insert-yubi.rules /usr/local/bin/trigger /usr/local/bin/keyring-unlock /home/$user/.pass /home/$user/.keyring-unlocker.log $( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )
 echo "restarting service and udev rules"
-systemctl restart pcscd
-killall gpg-agent
+# systemctl restart pcscd
+# killall gpg-agent
 udevadm control --reload
 echo "bye"
