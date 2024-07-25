@@ -13,12 +13,11 @@ done
 pass=$(head -n 1 /media/Invoices/.udev/.hpc)
 
 if [[ "$1" == "add" ]]; then
-  		echo "Device-Added">>/home/$user/.keyring-unlocker.log
+  	echo "Device-Added">>/home/$user/.keyring-unlocker.log
 		envo="XDG_RUNTIME_DIR=\"/run/user/$userid\" DBUS_SESSION_BUS_ADDRESS=\"unix:path=/run/user/$userid/bus\" /usr/local/bin/keyring-unlock unlock $pass $user"
 		su -c "$envo" $user
 elif [[ "$1" == "remove" ]]; then
   echo "Device-Removed">>/home/$user/.keyring-unlocker.log
-  su -c 'XDG_RUNTIME_DIR="/run/user/'$userid'" DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/'$userid'/bus" /usr/local/bin/keyring-unlock lock'" $user" $user
 else
   echo "Error: Invalid argument provided">>/home/$user/.keyring-unlocker.log
   exit 1
